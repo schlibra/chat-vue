@@ -3,14 +3,19 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@varlet/touch-emulator": "^2.8.1",
     "@varlet/ui": "^2.8.1",
+    "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-ws": "^5.0.2",
+    "socket.io": "^4.6.0",
     "vue": "^3.2.45",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.8.2"
