@@ -1,29 +1,30 @@
-# something
+# SCH的简易聊天室
+这是一个基于局域网通信的简易网页聊天室，使用Vue+varlet+Express开发完成，功能将持续优化。
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+## 下载程序
+```shell
+git clone https://gitee.com/schlibra/chat-vue.git
+cd chat-vue
+```
+## 安装依赖
+```shell
+# npm
 npm install
+
+# yarn
+yarn install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
+## 编译Vue页面
+```shell
+# npm
 npm run build
+
+# yarn
+yarn build 
 ```
+## 启动程序
+```shell
+node app.js
+```
+## 访问
+在浏览器中访问地址：http://localhost/ ，或访问你的局域网IP
