@@ -22,6 +22,7 @@ const showHideBack = props.hideBack !== 'true';
 
 onMounted(()=>{
   StyleProvider(currentTheme);
+  document.title = props.title;
 });
 
 function toggleTheme(){

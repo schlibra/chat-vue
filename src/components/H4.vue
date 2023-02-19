@@ -8,7 +8,6 @@
 
 <style scoped>
 h4{
-  display: block;
   text-align: center;
   font-size: 1.7em;
 }
