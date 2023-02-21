@@ -119,9 +119,9 @@ app.post('/createRoom',(req, res)=>{
     const name = req.cookies.name;
     let result;
     let ip = req.ip.split(".")[3];
-    if (ip.length === 3){
-        ip = ip.substring(1);
-    }
+    //if (ip.length === 3){
+    //    ip = ip.substring(1);
+    //}
     if (data.list[roomId]){
         result = "Exist";
     }else {
