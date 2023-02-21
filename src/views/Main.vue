@@ -7,8 +7,8 @@
     <H4 style="margin-top: 0;" v-show="showFullTitle" @click="toggleFullTitle">房间管理员：{{ roomAdminName }}（{{ roomAdmin }}）</H4>
   </var-pull-refresh>
   <Div width="18">
-    <div class="main">
-      <var-cell v-for="item in data.data">
+    <div class="main" ref="main">
+      <var-cell v-for="(item, index) in data.data" :key="index">
         <Message
             :position="item['userId'] === clientIP ? 'right' : 'left'"
             :item="item"
@@ -56,12 +56,13 @@ const message = ref("");
 const showSendMessage = ref(false);
 const showFullTitle = ref(true);
 const showNewMessage = ref(false);
+let main = ref();
 let mainHeight = 40;
 let count = 0;
 
 function toggleFullTitle(){
   showFullTitle.value = !showFullTitle.value;
-  mainHeight = showFullTitle.value ? 40 : 55;
+  mainHeight = showFullTitle.value ? 45 : 60;
   document.querySelector(".main").style.height = `${mainHeight}vh`;
 }
 function refresh() {
@@ -101,6 +102,14 @@ function getMessage() {
 
 function sendMessage() {
   showSendMessage.value = false;
+  if (message.value.trim().length===0){
+    Dialog({
+      title: "错误",
+      message: "请输入文本",
+      cancelButton: false
+    });
+    return;
+  }
   let name = $cookies.get("name");
   let id = clientIP.value;
   let _message = message.value;
@@ -138,9 +147,9 @@ function getRoomInfo() {
     roomAdmin.value = data.admin;
     roomAdminName.value = data.adminName;
     let ip = data["ip"].split(".")[3];
-    if (ip.length === 3) {
-      ip = ip.substring(1);
-    }
+    // if (ip.length === 3) {
+    //   ip = ip.substring(1);
+    // }
     clientIP.value = ip;
 
   });
@@ -161,6 +170,8 @@ onMounted(() => {
     }, 1200);
   } else {
     getMessage();
+    main = main.value;
+    console.log(main);
   }
 })
 

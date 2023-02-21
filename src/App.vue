@@ -28,6 +28,6 @@ const currentView = computed(() => routes[currentPath.value.slice(1) || '/']);
   <component :is="currentView"/>
 </template>
 
-<style scoped>
+<style>
 
 </style>

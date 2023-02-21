@@ -9,7 +9,9 @@
         ripple="true"
         outline
         :title="'房间编号：' + index "
-        :subtitle="'是否加密：' + (item.passwd ? '是' : '否')">
+        :subtitle="'是否加密：' + (item.passwd ? '是' : '否')"
+        @click="joinRoom(index)"
+        :id="item.id">
 
       <var-cell>是否加密：{{ item.passwd ? "是" : "否" }}</var-cell>
     </var-card>
@@ -23,6 +25,7 @@ import Div from "@/components/Div.vue";
 import H1 from "@/components/H1.vue";
 import H2 from "@/components/H2.vue";
 import {onMounted, reactive} from "vue";
+import $cookie from 'vue-cookie';
 
 const list = reactive({data:[]});
 
@@ -35,10 +38,15 @@ function getRoomList(){
     method:'post'
   }).then(data=>data.text()).then(ret=>{
     if (!ret){
-      ret = `{"1234":{"adminId":"1","admin":"SCH","passwd":"1234"},"3234":{"adminId":"1","admin":"SCH","passwd":"1234"},"2234":{"adminId":"1","admin":"SCH","passwd":"1234"}}`;
+      ret = `{"1234":{"adminId":"1","admin":"SCH","passwd":"1234","id":"1234"},"3234":{"adminId":"1","admin":"SCH","passwd":"1234"},"2234":{"adminId":"1","admin":"SCH","passwd":"1234"}}`;
     }
     list.data = JSON.parse(ret);
   });
+}
+
+function joinRoom(id){
+  $cookie.set("roomId",id);
+  location.href="#/main";
 }
 </script>
 
