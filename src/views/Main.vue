@@ -114,8 +114,9 @@ function sendMessage() {
   let id = clientIP.value;
   let _message = message.value;
   let rId = roomId.value;
-  fetch(`/sendMessage?roomId=${rId}&name=${name}&id=${id}&content=${_message}`, {
-    method: 'post'
+  fetch(`/sendMessage`, {
+    method: 'post',
+	body: `roomId=${rId}&name=${name}&id=${id}&content=${encodeURI(_message)}`
   }).then(data => data.text()).then(ret => {
     message.value = "";
     switch (ret) {
