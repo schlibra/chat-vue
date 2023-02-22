@@ -96,6 +96,7 @@ function getMessage() {
       },1500);
     }
     getMessage();
+	console.clear();
     // setTimeout(getMessage, 10);
   });
 }
