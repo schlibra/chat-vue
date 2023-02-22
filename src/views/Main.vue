@@ -29,7 +29,7 @@
     <var-input placeholder="输入消息" v-model="message" @keydown.enter="sendMessage"/>
   </var-dialog>
   <var-snackbar @click="showNewMessage = false" :show="showNewMessage" type="success">收到新消息！</var-snackbar>
-
+  <var-snackbar :show="showEmptyMessage" type="error">请输入消息！</var-snackbar>
 </template>
 
 <script setup>
@@ -56,13 +56,15 @@ const message = ref("");
 const showSendMessage = ref(false);
 const showFullTitle = ref(true);
 const showNewMessage = ref(false);
+const showEmptyMessage = ref(false);
 let main = ref();
+let inputbox = ref();
 let mainHeight = 40;
 let count = 0;
 
 function toggleFullTitle(){
   showFullTitle.value = !showFullTitle.value;
-  mainHeight = showFullTitle.value ? 45 : 60;
+  mainHeight = showFullTitle.value ? 55 : 70;
   document.querySelector(".main").style.height = `${mainHeight}vh`;
 }
 function refresh() {
@@ -95,8 +97,7 @@ function getMessage() {
         showNewMessage.value=false;
       },1500);
     }
-    getMessage();
-	console.clear();
+    // getMessage();
     // setTimeout(getMessage, 10);
   });
 }
@@ -104,18 +105,23 @@ function getMessage() {
 function sendMessage() {
   showSendMessage.value = false;
   if (message.value.trim().length===0){
-    Dialog({
-      title: "错误",
-      message: "请输入文本",
-      cancelButton: false
-    });
+    // inputbox.blur();
+    showEmptyMessage.value = true;
+    setTimeout(()=>{
+      showEmptyMessage.value = false;
+    },1200);
+    // Dialog({
+    //   title: "错误",
+    //   message: "请输入文本",
+    //   cancelButton: false
+    // });
     return;
   }
   let name = $cookies.get("name");
   let id = clientIP.value;
   let _message = message.value;
   let rId = roomId.value;
-  fetch(`/sendMessage?roomId=${rId}&name=${name}&id=${id}&content=${encodeURI(_message)}`, {
+  fetch(`/sendMessage?roomId=${rId}&name=${name}&id=${id}&content=${_message}`, {
     method: 'post'
   }).then(data => data.text()).then(ret => {
     message.value = "";
@@ -156,6 +162,20 @@ function getRoomInfo() {
   });
 }
 
+function getCount(){
+  fetch(`/getCount?id=${roomId.value}`,{
+    method: 'post'
+  }).then(data=>data.text()).then(ret=>{
+    if(ret.length>0){
+      if(ret!=count){
+        count=ret;
+        getMessage();
+      }
+      getCount();
+    }
+  });
+}
+
 onMounted(() => {
   if (roomId.value.length === 0) {
     Dialog({
@@ -170,9 +190,12 @@ onMounted(() => {
       location.href = "#/join";
     }, 1200);
   } else {
-    getMessage();
+    getRoomInfo();
+    getCount();
     main = main.value;
+    inputbox = inputbox.value;
     console.log(main);
+    document.querySelector(".main").style.height = `55vh`;
   }
 })
 
@@ -182,7 +205,6 @@ let isMobile = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|An
 
 <style scoped>
 .main {
-  height: 40vh;
   width: 100%;
   background-color: rgba(200, 200, 200, .1);
   overflow: auto;
