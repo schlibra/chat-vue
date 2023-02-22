@@ -76,6 +76,17 @@ app.post('/getMessage',(req,res)=>{
     request_count++;
 });
 
+app.post('/getCount',(req,res)=>{
+    let roomId = req.query.id;
+    let result;
+    if (data.data[roomId]){
+        result = data.data[roomId].length+"";
+    }else {
+        result = 0+"";
+    }
+    res.send(result);
+})
+
 app.post('/sendMessage',(req,res)=>{
     let roomId = req.query.roomId;
     let content = req.query.content;
@@ -130,6 +141,7 @@ app.post('/createRoom',(req, res)=>{
             admin: name,
             passwd: roomPasswd
         }
+        data.data[roomId+""]=[];
         console.log("insert")
         result = "Ok";
     }
@@ -167,7 +179,7 @@ app.listen(80, "0.0.0.0",()=>{
     data = JSON.parse(data_str);
     if (data.length===0){
         console.log("Update data struct")
-        data = {data:{},list:{}};
+        data = {data:{},list:{},counter:{}};
     }
     setTimeout(saveData,200);
 });
